@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-import os    # Biblioteca pentru a lucra cu căi de fișiere
+import os
 
 def preprocess_image(image: np.ndarray) -> np.ndarray:
 
@@ -16,7 +16,6 @@ def preprocess_image(image: np.ndarray) -> np.ndarray:
     
     return edges
 
-# --- Exemplu de utilizare cu dataset-ul TuSimple ---
 if __name__ == "__main__":
     while True:
         image_path = input("Introdu calea catre imaginea dorita sau 'exit' pentru a iesi: ")
@@ -31,7 +30,7 @@ if __name__ == "__main__":
         figure = plt.figure(figsize=(12, 6))
         
         plt.subplot(1, 2, 1)
-        plt.title("Imagine Originala (din TuSimple)")
+        plt.title("Imagine Originala")
         plt.imshow(image)
         plt.axis('off')
         
