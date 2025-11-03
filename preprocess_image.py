@@ -5,13 +5,13 @@ import os    # Biblioteca pentru a lucra cu căi de fișiere
 
 def preprocess_image(image: np.ndarray) -> np.ndarray:
 
-    # 2. Convertește imaginea în grayscale
+    # 1. Convertește imaginea în grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     
-    # 3. Aplică un filtru Gaussian pentru a reduce zgomotul
+    # 2. Aplică un filtru Gaussian pentru a reduce zgomotul
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
     
-    # 4. Aplică detecția de contururi Canny
+    # 3. Aplică detecția de contururi Canny
     edges = cv2.Canny(blurred, 50, 150)
     
     return edges
