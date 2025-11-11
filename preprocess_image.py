@@ -15,28 +15,3 @@ def preprocess_image(image: np.ndarray) -> np.ndarray:
     edges = cv2.Canny(blurred, 50, 150)
     
     return edges
-
-if __name__ == "__main__":
-    while True:
-        image_path = input("Introdu calea catre imaginea dorita sau 'exit' pentru a iesi: ")
-        if image_path.lower() == 'exit':
-            break
-        if not os.path.isfile(image_path):
-            print(f"Eroare: Calea '{image_path}' nu este valida.")
-            continue
-        image = cv2.imread(image_path)
-        processed_edges = preprocess_image(image)
-        
-        figure = plt.figure(figsize=(12, 6))
-        
-        plt.subplot(1, 2, 1)
-        plt.title("Imagine Originala")
-        plt.imshow(image)
-        plt.axis('off')
-        
-        plt.subplot(1, 2, 2)
-        plt.title("Imagine Preprocesata (Contururi Canny)")
-        plt.imshow(processed_edges, cmap='gray')
-        plt.axis('off')
-        
-        plt.show()
