@@ -6,14 +6,10 @@ from preprocess_image import preprocess_image
 
 
 def hough_transform(image: np.ndarray, theta_resolution_deg: int = 1, rho_resolution_pix: int = 1) -> (np.ndarray, np.ndarray, np.ndarray):
-    """
-    Pasul 2: Implementarea Transformatei Hough.
-    Construiește spațiul acumulatorului (Rho-Theta).
-    Aceasta este funcția care implementează ecuația (1) din articol.
-    """
+
     height, width = image.shape
     
-    # --- 1. Inițializarea Acumulatorului ---
+    # 1. Inițializarea Acumulatorului 
     max_rho = int(np.ceil(np.sqrt(height**2 + width**2)))
     
     # Definim axa Rho: de la -max_rho la +max_rho
@@ -28,7 +24,7 @@ def hough_transform(image: np.ndarray, theta_resolution_deg: int = 1, rho_resolu
     # Inițializăm acumulatorul cu zerouri
     accumulator = np.zeros((rho_bins_count, theta_bins_count), dtype=np.uint64)
     
-    # --- 2. Procesul de Votare ---
+    # 2. Procesul de Votare 
     
     # Găsim coordonatele (x, y) ale tuturor pixelilor de contur (albi)
     y_indices, x_indices = np.nonzero(image)
@@ -44,7 +40,7 @@ def hough_transform(image: np.ndarray, theta_resolution_deg: int = 1, rho_resolu
         x = x_indices[i]
         y = y_indices[i]
         
-        # Aplicăm ecuația (1) pentru TOATE unghiurile theta simultan
+        # Aplicăm ecuația (1) pentru toate unghiurile theta simultan
         calculated_rhos = x * cos_thetas + y * sin_thetas
         
         # Convertim valorile 'rho' (continue) în indici 'rho' (discreți)
@@ -72,16 +68,11 @@ if __name__ == "__main__":
         if not os.path.isfile(image_path):
             print(f"Eroare: Calea '{image_path}' nu este valida.")
             continue
-            
-        # --- PASUL 1: PREPROCESARE ---
+        
         image = cv2.imread(image_path)
         processed_edges = preprocess_image(image)
         
-        # --- PASUL 2: CONSTRUIREA ACUMULATORULUI ---
         accumulator, thetas_rad, rhos = hough_transform(processed_edges)
-        
-        
-        # --- VIZUALIZARE (Extinsă la 3 grafice) ---
         
         figure = plt.figure(figsize=(18, 6))
         
@@ -110,4 +101,5 @@ if __name__ == "__main__":
         plt.ylabel("Rho (Pixeli)")
         
         plt.tight_layout()
+
         plt.show()
