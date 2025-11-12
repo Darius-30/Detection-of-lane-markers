@@ -1,7 +1,5 @@
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-import os
 
 def preprocess_image(image: np.ndarray) -> np.ndarray:
 

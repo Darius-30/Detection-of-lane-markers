@@ -9,7 +9,6 @@ def hough_transform(image: np.ndarray, theta_resolution_deg: int = 1, rho_resolu
 
     height, width = image.shape
     
-    # 1. Inițializarea Acumulatorului 
     max_rho = int(np.ceil(np.sqrt(height**2 + width**2)))
     
     # Definim axa Rho: de la -max_rho la +max_rho
@@ -58,48 +57,48 @@ def hough_transform(image: np.ndarray, theta_resolution_deg: int = 1, rho_resolu
     return accumulator, thetas, rhos
 
 
-if __name__ == "__main__":
-    while True:
-        image_path = input("Introdu calea catre imaginea dorita sau 'exit' pentru a iesi: ")
-        if image_path.lower() == 'exit':
-            break
+# if __name__ == "__main__":
+#     while True:
+#         image_path = input("Introdu calea catre imaginea dorita sau 'exit' pentru a iesi: ")
+#         if image_path.lower() == 'exit':
+#             break
         
-        # Verificarea căii
-        if not os.path.isfile(image_path):
-            print(f"Eroare: Calea '{image_path}' nu este valida.")
-            continue
+#         # Verificarea căii
+#         if not os.path.isfile(image_path):
+#             print(f"Eroare: Calea '{image_path}' nu este valida.")
+#             continue
         
-        image = cv2.imread(image_path)
-        processed_edges = preprocess_image(image)
+#         image = cv2.imread(image_path)
+#         processed_edges = preprocess_image(image)
         
-        accumulator, thetas_rad, rhos = hough_transform(processed_edges)
+#         accumulator, thetas_rad, rhos = hough_transform(processed_edges)
         
-        figure = plt.figure(figsize=(18, 6))
+#         figure = plt.figure(figsize=(18, 6))
         
-        # 1. Imaginea Originală
-        plt.subplot(1, 3, 1)
-        plt.title("Imagine Originala")
+#         # 1. Imaginea Originală
+#         plt.subplot(1, 3, 1)
+#         plt.title("Imagine Originala")
         
-        plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-        plt.axis('off')
+#         plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+#         plt.axis('off')
         
-        # 2. Contururile Canny
-        plt.subplot(1, 3, 2)
-        plt.title("Imagine Preprocesata (Contururi Canny)")
-        plt.imshow(processed_edges, cmap='gray')
-        plt.axis('off')
+#         # 2. Contururile Canny
+#         plt.subplot(1, 3, 2)
+#         plt.title("Imagine Preprocesata (Contururi Canny)")
+#         plt.imshow(processed_edges, cmap='gray')
+#         plt.axis('off')
         
-        # 3. Spațiul Acumulatorului Hough
-        plt.subplot(1, 3, 3)
-        plt.title("Spatiul Acumulatorului Hough (Rho-Theta)")
+#         # 3. Spațiul Acumulatorului Hough
+#         plt.subplot(1, 3, 3)
+#         plt.title("Spatiul Acumulatorului Hough (Rho-Theta)")
         
-        plt.imshow(np.log1p(accumulator), 
-                   cmap='jet', 
-                   aspect='auto', 
-                   extent=[np.rad2deg(thetas_rad[0]), np.rad2deg(thetas_rad[-1]), rhos[-1], rhos[0]]) 
-        plt.xlabel("Theta (Grade)")
-        plt.ylabel("Rho (Pixeli)")
+#         plt.imshow(np.log1p(accumulator), 
+#                    cmap='jet', 
+#                    aspect='auto', 
+#                    extent=[np.rad2deg(thetas_rad[0]), np.rad2deg(thetas_rad[-1]), rhos[-1], rhos[0]]) 
+#         plt.xlabel("Theta (Grade)")
+#         plt.ylabel("Rho (Pixeli)")
         
-        plt.tight_layout()
+#         plt.tight_layout()
 
-        plt.show()
+#         plt.show()
