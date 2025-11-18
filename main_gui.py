@@ -18,7 +18,7 @@ from matplotlib.figure import Figure
 from preprocess_image import preprocess_image
 from hough_transform import hough_transform
 from peak_detection import find_peaks
-from line_reconstruction import solve_line_endpoints
+from line_reconstruction_V2 import solve_line_endpoints
 
 class ImageProcessorApp(QWidget):
     def __init__(self):

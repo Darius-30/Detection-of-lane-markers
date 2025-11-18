@@ -198,7 +198,6 @@ def ndarray_to_qpixmap(cv_image: np.ndarray) -> QPixmap:
         q_image = QImage(rgb_image.data, width, height, bytes_per_line, QImage.Format.Format_RGB888)
     return QPixmap.fromImage(q_image.copy())
 
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = ImageProcessorApp()
