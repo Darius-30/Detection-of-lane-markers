@@ -3,12 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-# Importăm modulele tale
 from hough_transform import hough_transform
 from peak_detection import find_peaks
 from line_reconstruction import solve_line_endpoints
 
-# --- CONFIGURARE ---
 # Setăm centrul jos (Y=400) pentru a nu fi tăiat de filtrul "Anti-Cer"
 CENTER_Y = 400 
 
@@ -42,9 +40,8 @@ def standard_hough_reconstruction(img, rho, theta):
     return error_bias
 
 def run_full_benchmark():
-    print("Se generează datele pentru Figura 7 și 8...")
+    print("Se generează datele pentru Figura 1 și 2...")
 
-    # ================= FIGURA 7 =================
     # Error vs Distance from Peak (Delta)
     distances = range(1, 10)
     resolutions = [1, 2]
@@ -72,7 +69,7 @@ def run_full_benchmark():
         
         # Eroarea de bază "With Peak" (constantă pentru o linie dată)
         base_wp_error = standard_hough_reconstruction(img, 0, 0)
-        if res == 1: base_wp_error += 5 # Delta=1 are zgomot mai mare la clasic (Fig 7 stanga)
+        if res == 1: base_wp_error += 5 # Delta=1 are zgomot mai mare la clasic (Fig 1 stanga)
         
         for delta in distances:
             # 1. NO PEAK (Metoda Noastră)
@@ -92,7 +89,6 @@ def run_full_benchmark():
             
         fig7_data[res] = (err_with_peak, err_no_peak)
 
-    # ================= FIGURA 8 =================
     # Error vs Line Numbers
     num_lines = 15
     line_ids = range(1, num_lines + 1)
@@ -124,9 +120,8 @@ def run_full_benchmark():
             f8_no_peak.append(0)
             f8_with_peak.append(0)
 
-    # ================= PLOTARE =================
     
-    # Setup Figura 7
+    # Setup Figura 1
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     
     # Subplot Delta=1
@@ -155,11 +150,11 @@ def run_full_benchmark():
     
     plt.suptitle('Figura 1')
     
-    # Setup Figura 8
+    # Setup Figura 2
     plt.figure(figsize=(10, 6))
     plt.plot(line_ids, f8_with_peak, 'k--', label='with peak', marker='o')
     plt.plot(line_ids, f8_no_peak, 'k-', label='no peak', marker='s')
-    plt.title('Figura 8')
+    plt.title('Figura 2')
     plt.xlabel('Line numbers')
     plt.ylabel('Error')
     plt.legend()

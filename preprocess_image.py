@@ -8,9 +8,6 @@ def mask_region_of_interest(edges_image: np.ndarray) -> np.ndarray:
     """
     height, width = edges_image.shape
     mask = np.zeros_like(edges_image)
-
-    # --- AJUSTARE COORDONATE ---
-    # Am ridicat linia orizontului și am lărgit partea de sus
     
     # Definim punctele procentual:
     # width * 0.10 = pornește de la 10% din stânga (nu chiar din colț)

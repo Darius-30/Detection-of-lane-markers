@@ -1,7 +1,6 @@
 import numpy as np
 
 def solve_line_endpoints(peak_rho_idx, peak_theta_idx, accumulator, thetas, rhos, delta_deg=3):
-    # ... (partea de inițializare rămâne la fel) ...
     rho_res = rhos[1] - rhos[0]
     theta_res = thetas[1] - thetas[0]
     delta_idx = int(np.deg2rad(delta_deg) / theta_res)
@@ -25,7 +24,7 @@ def solve_line_endpoints(peak_rho_idx, peak_theta_idx, accumulator, thetas, rhos
         actual_wing_center = start_search + local_max_offset
         max_val = col[actual_wing_center]
         
-        # !!! SCHIMBARE CRITICĂ 1: Prag de 70% !!!
+        #  Prag de 70% !!!
         # Linia se oprește imediat ce intensitatea scade puțin.
         threshold = max_val * 0.70  
         
@@ -67,7 +66,7 @@ def solve_line_endpoints(peak_rho_idx, peak_theta_idx, accumulator, thetas, rhos
         p1_int = (int(pt1[0]), int(pt1[1]))
         p2_int = (int(pt2[0]), int(pt2[1]))
 
-        # !!! SCHIMBARE CRITICĂ 2: Filtrul "Anti-Cer" !!!
+        # Filtrul "Anti-Cer" !!!
         # Dacă un punct este în jumătatea de sus a imaginii (unde e cerul/munții),
         # înseamnă că linia a fost proiectată greșit. O ștergem.
         # Presupunem că imaginea are aprox 720 înălțime. Orice y < 250 e suspect.

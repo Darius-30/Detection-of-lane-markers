@@ -3,7 +3,7 @@ from scipy.ndimage import maximum_filter
 
 def find_peaks(accumulator: np.ndarray, thetas: np.ndarray, threshold_rel: float = 0.4, neighborhood_size: int = 20):
     """
-    Găsește vârfurile locale, DAR ignoră liniile orizontale.
+    Găsește vârfurile locale, dar ignoră liniile orizontale.
     """
     # 1. Prag absolut bazat pe maximul global
     global_max = np.max(accumulator)
@@ -18,7 +18,7 @@ def find_peaks(accumulator: np.ndarray, thetas: np.ndarray, threshold_rel: float
     # 3. Mască de intensitate (elimină zgomotul slab)
     detected_peaks_mask = local_max & (accumulator > abs_threshold)
     
-    # --- FILTRARE UNGHIURI (NOU) ---
+    # --- FILTRARE UNGHIURI ---
     # Eliminăm liniile care sunt prea aproape de orizontală (aprox 90 grade).
     # Păstrăm doar liniile verticale/diagonale.
     # Theta 0 sau 180 = Vertical | Theta 90 = Orizontal
@@ -38,7 +38,7 @@ def find_peaks(accumulator: np.ndarray, thetas: np.ndarray, threshold_rel: float
     # Combinăm masca de vârfuri cu masca de unghiuri
     final_mask = detected_peaks_mask & full_angle_mask
     
-    # --- FINAL ---
+    # FINAL 
     
     # Extragem coordonatele
     peaks_indices = np.argwhere(final_mask)
