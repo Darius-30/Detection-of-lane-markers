@@ -1,10 +1,14 @@
 import numpy as np
 
-def solve_line_endpoints(peak_rho_idx, peak_theta_idx, accumulator, thetas, rhos, delta_deg=3):
+def solve_line_endpoints(peak_rho_idx, peak_theta_idx, accumulator, thetas, rhos, delta_deg=3, scan_threshold=0.7):
+    """
+    Acum acceptă 'scan_threshold' ca parametru (0.1 - 0.9).
+    """
     rho_res = rhos[1] - rhos[0]
     theta_res = thetas[1] - thetas[0]
     delta_idx = int(np.deg2rad(delta_deg) / theta_res)
     num_rhos, num_thetas = accumulator.shape
+    
     theta_l_idx = peak_theta_idx - delta_idx
     theta_r_idx = peak_theta_idx + delta_idx
     
@@ -24,16 +28,13 @@ def solve_line_endpoints(peak_rho_idx, peak_theta_idx, accumulator, thetas, rhos
         actual_wing_center = start_search + local_max_offset
         max_val = col[actual_wing_center]
         
-        #  Prag de 70% !!!
-        # Linia se oprește imediat ce intensitatea scade puțin.
-        threshold = max_val * 0.70  
+        # FOLOSIM PARAMETRUL PRIMIT DIN GUI
+        threshold = max_val * scan_threshold  
         
-        # Scanare sus
         curr = actual_wing_center
         while curr > 0 and col[curr] > threshold: curr -= 1
         rho_min_idx = curr
         
-        # Scanare jos
         curr = actual_wing_center
         while curr < num_rhos - 1 and col[curr] > threshold: curr += 1
         rho_max_idx = curr
@@ -41,13 +42,11 @@ def solve_line_endpoints(peak_rho_idx, peak_theta_idx, accumulator, thetas, rhos
         if (rho_max_idx - rho_min_idx) < 2: return None, None
         return rho_min_idx, rho_max_idx
 
-    # ... (apelurile get_rho_bounds rămân la fel) ...
     rho_l_min_idx, rho_l_max_idx = get_rho_bounds_strict(theta_l_idx, peak_rho_idx)
     rho_r_min_idx, rho_r_max_idx = get_rho_bounds_strict(theta_r_idx, peak_rho_idx)
     
     if None in [rho_l_min_idx, rho_l_max_idx, rho_r_min_idx, rho_r_max_idx]: return None
 
-    # ... (conversia și matricele A/B rămân la fel) ...
     theta_l = thetas[theta_l_idx]
     theta_r = thetas[theta_r_idx]
     rho_l_min = rhos[rho_l_min_idx]
@@ -66,10 +65,7 @@ def solve_line_endpoints(peak_rho_idx, peak_theta_idx, accumulator, thetas, rhos
         p1_int = (int(pt1[0]), int(pt1[1]))
         p2_int = (int(pt2[0]), int(pt2[1]))
 
-        # Filtrul "Anti-Cer" !!!
-        # Dacă un punct este în jumătatea de sus a imaginii (unde e cerul/munții),
-        # înseamnă că linia a fost proiectată greșit. O ștergem.
-        # Presupunem că imaginea are aprox 720 înălțime. Orice y < 250 e suspect.
+        # Filtru Anti-Cer (Hardcodat la 250, poți ajusta dacă vrei)
         if p1_int[1] < 250 or p2_int[1] < 250:
             return None
             
